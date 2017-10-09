@@ -1,15 +1,30 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { connect } from 'react-redux';
+import { fetchPosts, fetchCategories } from './actions'
+import HomePage from './components/HomePage'
 import './App.css';
+import '../node_modules/semantic-ui-css/semantic.min.css';
 
 class App extends Component {
+  componentDidMount() {
+    this.props.dispatch(fetchPosts())
+    this.props.dispatch(fetchCategories())
+  }
+
   render() {
     return (
       <div className="App">
-        hello world
+      <HomePage />
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    posts: state.posts,
+    categories: state.categories
+  }
+}
+
+export default connect(mapStateToProps)(App)
