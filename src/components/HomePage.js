@@ -38,17 +38,34 @@ class HomePage extends Component {
       )
     }
 
+    let allPosts
+    if (activeItem === 'home') {
+      allPosts = posts
+    } else if (activeItem === categories[0].name) {
+      allPosts = posts.filter((post) => (
+        post.category === categories[0].name
+      ))
+    } else if (activeItem === categories[1].name) {
+      allPosts = posts.filter((post) => (
+        post.category === categories[1].name
+      ))
+    } else if (activeItem === categories[2].name) {
+      allPosts = posts.filter((post) => (
+        post.category === categories[2].name
+      ))
+    }
+
     let content
     if (sort === 'most-liked') {
-      content = posts.sort((a, b) => (
+      content = allPosts.sort((a, b) => (
         b.voteScore - a.voteScore
       ))
     } else if (sort === 'least-liked') {
-      content = posts.sort((a, b) => (
+      content = allPosts.sort((a, b) => (
         a.voteScore - b.voteScore
       ))
     } else {
-      content = posts.sort((a, b) => (
+      content = allPosts.sort((a, b) => (
         b.timestamp - a.timestamp
       ))
     }
