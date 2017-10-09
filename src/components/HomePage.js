@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Menu, Button, Feed, Container, Dropdown, Icon, Divider, Dimmer, Loader, Header } from 'semantic-ui-react';
 import { fetchPosts, fetchCategories } from '../actions'
+import { Link } from 'react-router-dom'
 
 class HomePage extends Component {
   state = {
@@ -13,7 +14,7 @@ class HomePage extends Component {
   componentDidMount() {
     this.props.dispatch(fetchPosts())
     this.props.dispatch(fetchCategories())
-    setTimeout(() => this.setState({ loading: false }), 1500)
+    setTimeout(() => this.setState({ loading: false }), 1200)
   }
 
   handleItemClick = (event, { name }) => {
@@ -22,6 +23,10 @@ class HomePage extends Component {
 
   handleSortClick = (data) => {
     this.setState({ sort: data })
+  }
+
+  thisClick = (post) => {
+    console.log(post.id)
   }
 
   render() {
@@ -137,11 +142,13 @@ class HomePage extends Component {
               Posted Today by {post.author}
             </Feed.Date>
 
-            <a href='#'>
-            <Feed.Summary>
+            <Link
+              to={'/posts/' + post.id}
+            >
+            <Feed.Summary onClick={() => this.thisClick(post)}>
               {post.title}
             </Feed.Summary>
-            </a>
+            </Link>
 
             <Feed.Meta>
               <Feed.Like>
