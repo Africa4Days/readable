@@ -152,13 +152,13 @@ class HomePage extends Component {
 
             <Feed.Meta>
               <Feed.Like>
-                <Icon size='large' name='thumbs up' />
+                <Icon id='thumb-up' size='large' name='thumbs up' />
               </Feed.Like>
 
                 <span id='postScore'>{post.voteScore}</span>
 
               <Feed.Like>
-                <Icon size='large' name='thumbs down' />
+                <Icon id='thumb-down' size='large' name='thumbs down' />
               </Feed.Like>
             </Feed.Meta>
 

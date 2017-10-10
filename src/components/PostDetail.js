@@ -87,13 +87,13 @@ class PostDetail extends Component {
 
                 <CommentFeed.Actions>
                   <CommentFeed.Action>
-                    <Icon name='thumbs up' />
+                    <Icon size='large' id='thumb-up' name='thumbs up' />
                   </CommentFeed.Action>
 
                     <span id='commentScore'>{item.voteScore}</span>
 
                   <CommentFeed.Action>
-                    <Icon name='thumbs down' />
+                    <Icon size='large' id='thumb-down' name='thumbs down' />
                   </CommentFeed.Action>
                 </CommentFeed.Actions>
 

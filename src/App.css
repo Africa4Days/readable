@@ -22,6 +22,14 @@
   font-size: large;
 }
 
+#thumb-up:hover {
+  color: #00E676;
+}
+
+#thumb-down:hover {
+  color: #F44336;
+}
+
 #commentScore {
   margin-right: 12px;
 }
