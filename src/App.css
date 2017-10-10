@@ -22,6 +22,14 @@
   font-size: large;
 }
 
+#commentScore {
+  margin-right: 12px;
+}
+
+#postScore {
+  margin-left: 5px;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

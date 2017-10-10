@@ -14,7 +14,7 @@ class HomePage extends Component {
   componentDidMount() {
     this.props.dispatch(fetchPosts())
     this.props.dispatch(fetchCategories())
-    setTimeout(() => this.setState({ loading: false }), 1200)
+    setTimeout(() => this.setState({ loading: false }), 800)
   }
 
   handleItemClick = (event, { name }) => {
@@ -154,7 +154,9 @@ class HomePage extends Component {
               <Feed.Like>
                 <Icon size='large' name='thumbs up' />
               </Feed.Like>
-                {post.voteScore}
+
+                <span id='postScore'>{post.voteScore}</span>
+
               <Feed.Like>
                 <Icon size='large' name='thumbs down' />
               </Feed.Like>

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Dimmer, Loader } from 'semantic-ui-react';
+import { Dimmer, Loader, Header, Divider, Container, Menu, Icon, Segment, Comment as CommentFeed, Form, Button } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 class PostDetail extends Component {
   componentDidMount() {
     this.fetchPost()
-    setTimeout(() => this.setState({ loading: false }), 1200)
+    this.fetchComments()
+    setTimeout(() => this.setState({ loading: false }), 800)
   }
 
   fetchPost = () => {
@@ -15,15 +17,23 @@ class PostDetail extends Component {
     .then(res => this.setState({ post: res }))
   }
 
+  fetchComments = () => {
+    fetch(`http://localhost:3001/posts/${this.props.match.params.id}/comments`, {
+      headers: { 'Authorization' : 'asdf' }
+    })
+    .then(res => res.json())
+    .then(res => this.setState({ comments: res }))
+  }
+
   state = {
     loading: true,
-    post: []
+    post: [],
+    comments: []
   }
 
   render() {
-    const { loading, post } = this.state
-    let postID = this.props.match.params.id
-    console.log(post)
+    const { loading, post, comments } = this.state
+    console.log(post, comments)
 
     if (loading) {
       return (
@@ -37,7 +47,67 @@ class PostDetail extends Component {
 
     return (
       <div>
-        {post.title}
+      <Menu secondary size='large'>
+        <Menu.Item name='back' as={Link} to='/'>
+          <Icon size='large' name='chevron left' />
+        </Menu.Item>
+      </Menu>
+        <Container textAlign='left'>
+          <Header as='h1' textAlign='left'>{post.title}
+          <Header.Subheader>
+            posted {post.timestamp} by {post.author}
+          </Header.Subheader>
+          </Header>
+          <Divider />
+          <Segment basic padded='very' textAlign='left' size='massive'>
+            {post.body}
+          </Segment>
+
+
+          <CommentFeed.Group>
+            <Header as='h3' dividing>Comments</Header>
+            {comments.map((item) => (
+
+              <CommentFeed key={item.id}>
+
+              <CommentFeed.Avatar as={Icon} name='user circle' size='large' inverted color='blue' />
+
+              <CommentFeed.Content>
+                <CommentFeed.Author>
+                  {item.author}
+                </CommentFeed.Author>
+
+                <CommentFeed.Metadata>
+                  <span>{item.timestamp}</span>
+                </CommentFeed.Metadata>
+
+                <CommentFeed.Text>
+                  <p>{item.body}</p>
+                </CommentFeed.Text>
+
+                <CommentFeed.Actions>
+                  <CommentFeed.Action>
+                    <Icon name='thumbs up' />
+                  </CommentFeed.Action>
+
+                    <span id='commentScore'>{item.voteScore}</span>
+
+                  <CommentFeed.Action>
+                    <Icon name='thumbs down' />
+                  </CommentFeed.Action>
+                </CommentFeed.Actions>
+
+              </CommentFeed.Content>
+
+              </CommentFeed>
+            ))}
+            <Form reply>
+              <Form.TextArea />
+              <Button circular inverted color='blue' content='Add Reply' />
+            </Form>
+          </CommentFeed.Group>
+        </Container>
+
       </div>
     )
   }
