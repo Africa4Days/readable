@@ -4,7 +4,7 @@ import { applyMiddleware, createStore } from 'redux';
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk';
-import posts from './reducers'
+import reducer from './reducers'
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
@@ -19,7 +19,7 @@ const logger = store => next => action => {
 }
 
 const store = createStore(
-  posts,
+  reducer,
   applyMiddleware(thunk, logger)
 )
 

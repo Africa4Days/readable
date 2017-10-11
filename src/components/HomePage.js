@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Menu, Button, Feed, Container, Dropdown, Icon, Divider, Dimmer, Loader, Header } from 'semantic-ui-react';
-import { fetchPosts, fetchCategories } from '../actions'
+import { fetchPosts, fetchCategories, votePost } from '../actions'
 import { Link } from 'react-router-dom'
 
 class HomePage extends Component {
@@ -14,7 +14,7 @@ class HomePage extends Component {
   componentDidMount() {
     this.props.dispatch(fetchPosts())
     this.props.dispatch(fetchCategories())
-    setTimeout(() => this.setState({ loading: false }), 800)
+    setTimeout(() => this.setState({ loading: false }), 1000)
   }
 
   handleItemClick = (event, { name }) => {
@@ -119,7 +119,7 @@ class HomePage extends Component {
       <Menu vertical>
         <Dropdown item text='Sort by'>
           <Dropdown.Menu>
-            <Dropdown.Item name='most-liked' active={sort === 'most-liked'} onClick={(e, data) => this.handleSortClick(data.name)}>Most Liked</Dropdown.Item>
+            <Dropdown.Item name='most-liked' active={sort === 'most-liked'} onClick={(e, data) => this.handleSortClick(data.name)}>Most liked</Dropdown.Item>
             <Dropdown.Item name='least-liked' active={sort === 'least-liked'} onClick={(e, data) => this.handleSortClick(data.name)}>Least liked</Dropdown.Item>
             <Dropdown.Item name='most-recent' active={sort === 'most-recent'} onClick={(e, data) => this.handleSortClick(data.name)}>Most recent</Dropdown.Item>
           </Dropdown.Menu>
@@ -152,13 +152,13 @@ class HomePage extends Component {
 
             <Feed.Meta>
               <Feed.Like>
-                <Icon id='thumb-up' size='large' name='thumbs up' />
+                <Icon id='thumb-up' size='large' name='thumbs up' onClick={() => this.props.dispatch(votePost(post.id, 'upVote'))} />
               </Feed.Like>
 
                 <span id='postScore'>{post.voteScore}</span>
 
               <Feed.Like>
-                <Icon id='thumb-down' size='large' name='thumbs down' />
+                <Icon id='thumb-down' size='large' name='thumbs down' onClick={() => this.props.dispatch(votePost(post.id, 'downVote'))} />
               </Feed.Like>
             </Feed.Meta>
 
