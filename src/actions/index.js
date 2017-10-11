@@ -3,6 +3,7 @@ export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES'
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
 export const VOTE_POST = 'VOTE_POST'
 export const VOTE_COMMENT = 'VOTE_COMMENT'
+export const CREATE_POST = 'CREATE_POST'
 
 export const fetchPosts = () => {
   return (dispatch) => {
@@ -63,6 +64,28 @@ export const voteComment = (commentID, option) => {
     })
     .then(res => res.json())
     .then(comment => dispatch(voteCommentAction(comment)))
+  }
+}
+
+export const createPost = (post) => {
+  return (dispatch) => {
+    fetch(`http://localhost:3001/posts`, {
+      method: 'POST',
+      body: JSON.stringify({ post }),
+      headers: {
+        'Content-Type' : 'application/json',
+        'Authorization' : 'asdf'
+      }
+    })
+    .then(res => res.json())
+    .then(post => dispatch(createPostAction(post)))
+  }
+}
+
+export const createPostAction = (post) => {
+  return {
+    type: CREATE_POST,
+    post
   }
 }
 

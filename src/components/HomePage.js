@@ -108,7 +108,7 @@ class HomePage extends Component {
 
         </Menu.Item>
         <Menu.Item>
-        <Button circular inverted color='blue' content='New Post' />
+        <Button circular inverted color='blue' content='New Post' as={Link} to='/posts'/>
         </Menu.Item>
         </Menu.Menu>
       </Menu>

@@ -3,7 +3,8 @@ import {
   RECEIVE_CATEGORIES,
   RECEIVE_COMMENTS,
   VOTE_POST,
-  VOTE_COMMENT
+  VOTE_COMMENT,
+  CREATE_POST
 } from '../actions'
 
 const initialState = {
@@ -29,6 +30,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         posts: [...state.posts.filter(post => post.id !== action.post.id), action.post]
+      }
+    case CREATE_POST :
+      return {
+        ...state,
+        posts: [...state.posts, ...action.post]
       }
     case RECEIVE_COMMENTS :
       return {
