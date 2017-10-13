@@ -4,6 +4,7 @@ export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
 export const VOTE_POST = 'VOTE_POST'
 export const VOTE_COMMENT = 'VOTE_COMMENT'
 export const CREATE_POST = 'CREATE_POST'
+export const CREATE_COMMENT = 'CREATE_COMMENT'
 
 export const fetchPosts = () => {
   return (dispatch) => {
@@ -82,6 +83,32 @@ export const createPost = (post) => {
     })
     .then(res => res.json())
     .then(post => dispatch(createPostAction(post)))
+  }
+}
+
+export const createComment = (postID, comment) => {
+  comment.timestamp = Date.now()
+  comment.id = Math.floor(Math.random() * 10000000)
+  comment.parentId = postID
+
+  return (dispatch) => {
+    fetch(`http://localhost:3001/comments`, {
+      method: 'POST',
+      body: JSON.stringify(comment),
+      headers: {
+        'Content-Type' : 'application/json',
+        'Authorization' : 'asdf'
+      }
+    })
+    .then(res => res.json())
+    .then(comment => dispatch(createCommentAction(comment)))
+  }
+}
+
+export const createCommentAction = (comment) => {
+  return {
+    type: CREATE_COMMENT,
+    comment
   }
 }
 

@@ -18,6 +18,7 @@ class CreatePost extends Component {
   mySubmit = (values) => {
     this.props.dispatch(createPost(values))
     console.log(values)
+    this.props.history.push('/')
   }
 
   render() {

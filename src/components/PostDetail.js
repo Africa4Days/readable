@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Dimmer, Loader, Header, Divider, Container, Menu, Icon, Segment, Comment as CommentFeed, Form, Button, Dropdown } from 'semantic-ui-react';
+import { Dimmer, Loader, Header, Divider, Container, Menu, Icon, Segment, Comment as CommentFeed, Form, Button, Dropdown, Input, TextArea } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchComments, voteComment } from '../actions';
+import { fetchComments, voteComment, createComment } from '../actions';
+import { Field, reduxForm, initialize } from 'redux-form';
 
 class PostDetail extends Component {
   componentDidMount() {
@@ -23,15 +24,22 @@ class PostDetail extends Component {
     this.setState({ sort: data })
   }
 
+  mySubmit = (values) => {
+    console.log(values)
+    this.props.dispatch(createComment(this.props.match.params.id, values))
+    this.props.dispatch(fetchComments(this.props.match.params.id))
+    this.props.dispatch(initialize('CreateComment', {}))
+  }
+
   state = {
     loading: true,
     post: [],
-    sort: 'most-liked'
+    sort: 'most-liked',
   }
 
   render() {
     const { loading, post, sort } = this.state
-    const { comments } = this.props
+    const { comments, handleSubmit } = this.props
     console.log(post, comments)
 
     if (loading) {
@@ -125,11 +133,34 @@ class PostDetail extends Component {
 
               </CommentFeed>
             ))}
-            <Form reply>
-              <Form.TextArea />
-              <Button circular inverted color='blue' content='Add Reply' />
-            </Form>
+            <Header as='h3'>Add a comment</Header>
           </CommentFeed.Group>
+
+          <form onSubmit={handleSubmit(this.mySubmit)}>
+            <div>
+              <label>Author</label>
+              <div>
+                <Field
+                  name='author'
+                  component='input'
+                  type='text'
+                  placeholder='Comment author'
+                />
+              </div>
+            </div>
+            <div>
+              <label></label>
+              <div>
+                <Field
+                  name='body'
+                  component='textarea'
+                  placeholder='Comment body'
+                />
+              </div>
+            </div>
+            <button type='submit'>Add comment</button>
+          </form>
+
         </Container>
 
       </div>
@@ -143,4 +174,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(PostDetail)
+export default reduxForm({ form: 'CreateComment' })(connect(mapStateToProps)(PostDetail))

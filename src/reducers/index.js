@@ -4,7 +4,8 @@ import {
   RECEIVE_COMMENTS,
   VOTE_POST,
   VOTE_COMMENT,
-  CREATE_POST
+  CREATE_POST,
+  CREATE_COMMENT
 } from '../actions'
 
 const initialState = {
@@ -45,6 +46,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         comments: [...state.comments.filter(comment => comment.id !== action.comment.id), action.comment]
+      }
+    case CREATE_COMMENT :
+      return {
+        ...state,
+        comments: [...state.comments, ...action.comment]
       }
     default:
       return state;
