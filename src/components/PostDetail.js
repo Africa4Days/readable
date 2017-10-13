@@ -139,7 +139,7 @@ class PostDetail extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    comments: state.comments
+    comments: state.reducer.comments
   }
 }
 

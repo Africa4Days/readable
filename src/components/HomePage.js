@@ -176,8 +176,8 @@ class HomePage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    posts: state.posts,
-    categories: state.categories
+    posts: state.reducer.posts,
+    categories: state.reducer.categories
   }
 }
 

@@ -68,10 +68,13 @@ export const voteComment = (commentID, option) => {
 }
 
 export const createPost = (post) => {
+  post.timestamp = Date.now()
+  post.id = Math.floor(Math.random() * 10000000)
+
   return (dispatch) => {
     fetch(`http://localhost:3001/posts`, {
       method: 'POST',
-      body: JSON.stringify({ post }),
+      body: JSON.stringify(post),
       headers: {
         'Content-Type' : 'application/json',
         'Authorization' : 'asdf'

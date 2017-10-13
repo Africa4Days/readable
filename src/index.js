@@ -8,6 +8,8 @@ import reducer from './reducers'
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
+import { reducer as formReducer } from 'redux-form'
+import { combineReducers } from 'redux';
 
 const logger = store => next => action => {
   console.group(action.type)
@@ -18,8 +20,13 @@ const logger = store => next => action => {
   return result
 }
 
-const store = createStore(
+const rootReducer = combineReducers({
   reducer,
+  form: formReducer
+})
+
+const store = createStore(
+  rootReducer,
   applyMiddleware(thunk, logger)
 )
 
