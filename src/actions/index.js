@@ -5,6 +5,9 @@ export const VOTE_POST = 'VOTE_POST'
 export const VOTE_COMMENT = 'VOTE_COMMENT'
 export const CREATE_POST = 'CREATE_POST'
 export const CREATE_COMMENT = 'CREATE_COMMENT'
+export const DELETE_POST = 'DELETE_POST'
+export const DELETE_COMMENT = 'DELETE_COMMENT'
+export const EDIT_POST = 'EDIT_POST'
 
 export const fetchPosts = () => {
   return (dispatch) => {
@@ -102,6 +105,73 @@ export const createComment = (postID, comment) => {
     })
     .then(res => res.json())
     .then(comment => dispatch(createCommentAction(comment)))
+  }
+}
+
+export const deletePost = (postID) => {
+
+  return (dispatch) => {
+    fetch(`http://localhost:3001/posts/${postID}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type' : 'application/json',
+        'Authorization' : 'asdf'
+      }
+    })
+    .then(res => res.json())
+    .then(post => dispatch(deletePostAction(post)))
+  }
+}
+
+export const deleteComment = (commentID) => {
+
+  return (dispatch) => {
+    fetch(`http://localhost:3001/comments/${commentID}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type' : 'application/json',
+        'Authorization' : 'asdf'
+      }
+    })
+    .then(res => res.json())
+    .then(comment => dispatch(deleteCommentAction(comment)))
+  }
+}
+
+export const editPost = (postID, post) => {
+
+  return (dispatch) => {
+    fetch(`http://localhost:3001/posts/${postID}`, {
+      method: 'PUT',
+      body: JSON.stringify(post),
+      headers: {
+        'Content-Type' : 'application/json',
+        'Authorization' : 'asdf'
+      }
+    })
+    .then(res => res.json())
+    .then(post => dispatch(editPostAction(post)))
+  }
+}
+
+export const editPostAction = (post) => {
+  return {
+    type: EDIT_POST,
+    post
+  }
+}
+
+export const deleteCommentAction = (comment) => {
+  return {
+    type: DELETE_COMMENT,
+    comment
+  }
+}
+
+export const deletePostAction = (post) => {
+  return {
+    type: DELETE_POST,
+    post
   }
 }
 

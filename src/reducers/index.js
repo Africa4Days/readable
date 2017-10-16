@@ -5,7 +5,10 @@ import {
   VOTE_POST,
   VOTE_COMMENT,
   CREATE_POST,
-  CREATE_COMMENT
+  CREATE_COMMENT,
+  DELETE_POST,
+  DELETE_COMMENT,
+  EDIT_POST
 } from '../actions'
 
 const initialState = {
@@ -37,6 +40,16 @@ const reducer = (state = initialState, action) => {
         ...state,
         posts: [...state.posts, ...action.post]
       }
+    case DELETE_POST :
+      return {
+        ...state,
+        posts: [...state.posts.filter(post => post.id !== action.post.id)]
+      }
+    case EDIT_POST :
+      return {
+        ...state,
+        posts: [...state.posts.filter(post => post.id !== action.post.id), action.post]
+      }
     case RECEIVE_COMMENTS :
       return {
         ...state,
@@ -51,6 +64,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         comments: [...state.comments, ...action.comment]
+      }
+    case DELETE_COMMENT :
+      return {
+        ...state,
+        comments: [...state.comments.filter(comment => comment.id !== action.comment.id)]
       }
     default:
       return state;

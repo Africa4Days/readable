@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Dimmer, Loader, Header, Divider, Container, Menu, Icon, Segment, Comment as CommentFeed, Form, Button, Dropdown, Input, TextArea } from 'semantic-ui-react';
+import { Dimmer, Loader, Header, Divider, Container, Menu, Icon, Segment, Comment as CommentFeed, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchComments, voteComment, createComment } from '../actions';
+import { fetchComments, voteComment, createComment, deleteComment, deletePost } from '../actions';
 import { Field, reduxForm, initialize } from 'redux-form';
 
 class PostDetail extends Component {
@@ -29,6 +29,11 @@ class PostDetail extends Component {
     this.props.dispatch(createComment(this.props.match.params.id, values))
     this.props.dispatch(fetchComments(this.props.match.params.id))
     this.props.dispatch(initialize('CreateComment', {}))
+  }
+
+  onPostDelete = (postID) => {
+    this.props.dispatch(deletePost(postID))
+    this.props.history.push('/');
   }
 
   state = {
@@ -80,6 +85,12 @@ class PostDetail extends Component {
             posted {post.timestamp} by {post.author}
           </Header.Subheader>
           </Header>
+
+          <div id='details-buttons'>
+            <Icon id='trash' size='large' name='trash outline' onClick={() => this.onPostDelete(post.id)}/>
+            <Icon id='edit' size='large' name='edit' />
+          </div>
+
           <Divider />
           <Segment basic padded='very' textAlign='left' size='massive'>
             {post.body}
@@ -127,6 +138,16 @@ class PostDetail extends Component {
                   <CommentFeed.Action>
                     <Icon size='large' id='thumb-down' name='thumbs down' onClick={() => this.props.dispatch(voteComment(item.id, 'downVote'))} />
                   </CommentFeed.Action>
+
+                  <div id='edit-buttons'>
+                    <CommentFeed.Action>
+                      <Icon size='large' id='trash' name='trash outline' onClick={() => this.props.dispatch(deleteComment(item.id))} />
+                    </CommentFeed.Action>
+
+                    <CommentFeed.Action>
+                      <Icon size='large' id='edit' name='edit' />
+                    </CommentFeed.Action>
+                  </div>
                 </CommentFeed.Actions>
 
               </CommentFeed.Content>

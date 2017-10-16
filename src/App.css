@@ -42,6 +42,33 @@
   margin-bottom: 40px;
 }
 
+#edit-buttons {
+  margin-top: 10px;
+}
+
+#details-buttons {
+  margin-left: 20px;
+}
+
+#trash {
+  margin-right: 5px;
+}
+
+#trash:hover {
+  color: #F44336;
+  cursor: pointer;
+}
+
+#edit {
+  margin-left: 5px;
+  padding-top: 1.5px;
+}
+
+#edit:hover {
+  color: #FF9800;
+  cursor: pointer;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

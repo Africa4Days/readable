@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Menu, Button, Feed, Container, Dropdown, Icon, Divider, Dimmer, Loader, Header } from 'semantic-ui-react';
-import { fetchPosts, fetchCategories, votePost } from '../actions'
+import { fetchPosts, fetchCategories, votePost, deletePost } from '../actions'
 import { Link } from 'react-router-dom'
 
 class HomePage extends Component {
@@ -160,6 +160,21 @@ class HomePage extends Component {
               <Feed.Like>
                 <Icon id='thumb-down' size='large' name='thumbs down' onClick={() => this.props.dispatch(votePost(post.id, 'downVote'))} />
               </Feed.Like>
+
+              <div id='edit-buttons'>
+              <Feed.Like>
+                <Icon id='trash' size='large' name='trash outline' onClick={() => this.props.dispatch(deletePost(post.id))} />
+              </Feed.Like>
+
+              <Link
+                to={'/edit/' + post.id}
+              >
+              <Feed.Like>
+                <Icon id='edit' size='large' name='edit' />
+              </Feed.Like>
+              </Link>
+              </div>
+
             </Feed.Meta>
 
           </Feed.Content>
