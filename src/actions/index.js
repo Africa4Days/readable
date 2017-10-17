@@ -8,6 +8,8 @@ export const CREATE_COMMENT = 'CREATE_COMMENT'
 export const DELETE_POST = 'DELETE_POST'
 export const DELETE_COMMENT = 'DELETE_COMMENT'
 export const EDIT_POST = 'EDIT_POST'
+export const FETCH_POST = 'FETCH_POST'
+export const FETCH_COMMENT = 'FETCH_COMMENT'
 
 export const fetchPosts = () => {
   return (dispatch) => {
@@ -151,6 +153,42 @@ export const editPost = (postID, post) => {
     })
     .then(res => res.json())
     .then(post => dispatch(editPostAction(post)))
+  }
+}
+
+export const fetchPost = (postID) => {
+
+  return (dispatch) => {
+    fetch(`http://localhost:3001/posts/${postID}`, {
+      headers: { 'Authorization' : 'asdf' }
+    })
+    .then(res => res.json())
+    .then(post => dispatch(fetchPostAction(post)))
+  }
+}
+
+export const fetchComment = (commentID) => {
+
+  return (dispatch) => {
+    fetch(`http://localhost:3001/comments/${commentID}`, {
+      headers: { 'Authorization' : 'asdf' }
+    })
+    .then(res => res.json())
+    .then(comment => dispatch(fetchCommentAction(comment)))
+  }
+}
+
+export const fetchCommentAction = (comment) => {
+  return {
+    type: FETCH_COMMENT,
+    comment
+  }
+}
+
+export const fetchPostAction = (post) => {
+  return {
+    type: FETCH_POST,
+    post
   }
 }
 

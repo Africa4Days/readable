@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Menu, Icon, Container, Header, Divider } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, initialize, reset } from 'redux-form'
 import { connect } from 'react-redux';
 import { Dimmer, Loader } from 'semantic-ui-react';
-import { editPost } from '../actions'
+import { editPost, fetchPost } from '../actions'
 
 class EditPost extends Component {
   state = {
@@ -13,6 +12,12 @@ class EditPost extends Component {
 
   componentDidMount() {
     setTimeout(() => this.setState({ loading: false }), 1000)
+    this.props.dispatch(fetchPost(this.props.match.params.id))
+    this.props.dispatch(reset('editForm'))
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.props.dispatch(initialize('editForm', nextProps.post, true))
   }
 
   mySubmit = (values) => {
@@ -38,7 +43,7 @@ class EditPost extends Component {
     return (
       <div>
       <Menu secondary size='large'>
-        <Menu.Item name='back' as={Link} to='/'>
+        <Menu.Item name='back' onClick={() => window.history.back()}>
           <Icon size='large' name='chevron left' />
         </Menu.Item>
       </Menu>
@@ -93,8 +98,9 @@ class EditPost extends Component {
               </Field>
             </div>
           </div>
-          <button type='submit'>Create post</button>
+          <button type='submit'>Add Changes</button>
           </form>
+
 
       </Container>
       </div>
@@ -102,10 +108,18 @@ class EditPost extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    categories: state.reducer.categories
+    categories: state.reducer.categories,
+    post: state.reducer.post,
   }
 }
 
-export default reduxForm({ form: 'editForm' })(connect(mapStateToProps)(EditPost))
+const newForm = reduxForm({
+  form: 'editForm',
+  keepDirtyOnReinitialize: true
+})
+
+EditPost = connect(mapStateToProps)(newForm(EditPost))
+
+export default EditPost

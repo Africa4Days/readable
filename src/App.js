@@ -46,7 +46,7 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     posts: state.reducer.posts,
-    categories: state.reducer.categories
+    categories: state.reducer.categories,
   }
 }
 

@@ -1,23 +1,16 @@
 import React, { Component } from 'react';
-import { Dimmer, Loader, Header, Divider, Container, Menu, Icon, Segment, Comment as CommentFeed, Dropdown } from 'semantic-ui-react';
+import { Dimmer, Loader, Header, Divider, Container, Menu, Icon, Segment, Comment as CommentFeed, Dropdown, Modal } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchComments, voteComment, createComment, deleteComment, deletePost } from '../actions';
+import { fetchComments, voteComment, createComment, deleteComment, deletePost, fetchPost } from '../actions';
 import { Field, reduxForm, initialize } from 'redux-form';
+import EditComment from './EditComment';
 
 class PostDetail extends Component {
   componentDidMount() {
-    this.fetchPost()
+    this.props.dispatch(fetchPost(this.props.match.params.id))
     this.props.dispatch(fetchComments(this.props.match.params.id))
     setTimeout(() => this.setState({ loading: false }), 1000)
-  }
-
-  fetchPost = () => {
-    fetch(`http://localhost:3001/posts/${this.props.match.params.id}`, {
-      headers: { 'Authorization' : 'asdf' }
-    })
-    .then(res => res.json())
-    .then(res => this.setState({ post: res }))
   }
 
   handleSorting = (data) => {
@@ -36,15 +29,21 @@ class PostDetail extends Component {
     this.props.history.push('/');
   }
 
+  show = () => {
+    this.setState({ open: true })
+  }
+
+  close = () => this.setState({ open: false })
+
   state = {
     loading: true,
-    post: [],
     sort: 'most-liked',
+    open: false
   }
 
   render() {
-    const { loading, post, sort } = this.state
-    const { comments, handleSubmit } = this.props
+    const { loading, sort, open } = this.state
+    const { comments, handleSubmit, post } = this.props
     console.log(post, comments)
 
     if (loading) {
@@ -88,7 +87,11 @@ class PostDetail extends Component {
 
           <div id='details-buttons'>
             <Icon id='trash' size='large' name='trash outline' onClick={() => this.onPostDelete(post.id)}/>
-            <Icon id='edit' size='large' name='edit' />
+            <Link
+              to={'/edit/' + post.id}
+            >
+            <Icon id='edit-detail' size='large' name='edit' />
+            </Link>
           </div>
 
           <Divider />
@@ -144,7 +147,7 @@ class PostDetail extends Component {
                       <Icon size='large' id='trash' name='trash outline' onClick={() => this.props.dispatch(deleteComment(item.id))} />
                     </CommentFeed.Action>
 
-                    <CommentFeed.Action>
+                    <CommentFeed.Action onClick={this.show}>
                       <Icon size='large' id='edit' name='edit' />
                     </CommentFeed.Action>
                   </div>
@@ -152,12 +155,19 @@ class PostDetail extends Component {
 
               </CommentFeed.Content>
 
+              <Modal size='mini' open={open} onClose={this.close}>
+                <Modal.Header>Edit comment</Modal.Header>
+                <Modal.Content>
+                  <EditComment commentID={item.id} />
+                </Modal.Content>
+              </Modal>
+
               </CommentFeed>
             ))}
             <Header as='h3'>Add a comment</Header>
           </CommentFeed.Group>
 
-          <form onSubmit={handleSubmit(this.mySubmit)}>
+          <form form='CreateComment' onSubmit={handleSubmit(this.mySubmit)}>
             <div>
               <label>Author</label>
               <div>
@@ -170,7 +180,7 @@ class PostDetail extends Component {
               </div>
             </div>
             <div>
-              <label></label>
+              <label>Body</label>
               <div>
                 <Field
                   name='body'
@@ -191,7 +201,8 @@ class PostDetail extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    comments: state.reducer.comments
+    comments: state.reducer.comments,
+    post: state.reducer.post
   }
 }
 
