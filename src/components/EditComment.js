@@ -11,9 +11,14 @@ class EditComment extends Component {
   }
 
   componentDidMount() {
-    setTimeout(() => this.setState({ loading: false }), 1000)
     this.props.dispatch(fetchComment(this.props.match.params.id))
     this.props.dispatch(reset('EditComment'))
+  }
+
+  componentDidUpdate() {
+    if (this.state.loading && this.props.comment) {
+      this.setState({ loading: false })
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -30,7 +35,7 @@ class EditComment extends Component {
     const { handleSubmit } = this.props
     const { loading } = this.state
 
-    if (loading) {
+    if (loading && this.props.comment) {
       return (
         <div>
           <Dimmer active>
