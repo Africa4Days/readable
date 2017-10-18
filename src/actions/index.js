@@ -172,18 +172,19 @@ export const fetchPost = (postID) => {
 }
 
 export const editComment = (commentID, body) => {
+  const timestamp = Date.now()
 
   return (dispatch) => {
     fetch(`http://localhost:3001/comments/${commentID}`, {
       method: 'PUT',
-      body: JSON.stringify(body),
+      body: JSON.stringify({ body: body, timestamp: timestamp }),
       headers: {
         'Content-Type' : 'application/json',
         'Authorization' : 'asdf'
       }
     })
     .then(res => res.json())
-    .then(body => dispatch(editCommentAction(body)))
+    .then(comment => dispatch(editCommentAction(comment)))
   }
 }
 

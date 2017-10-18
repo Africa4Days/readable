@@ -15,27 +15,24 @@ class EditComment extends Component {
     this.props.dispatch(reset('EditComment'))
   }
 
-  componentDidUpdate() {
+  componentWillReceiveProps(nextProps) {
+    this.props.dispatch(initialize('EditComment', nextProps.comment, true))
     if (this.state.loading && this.props.comment) {
       this.setState({ loading: false })
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.props.dispatch(initialize('EditComment', nextProps.comment, true))
-  }
-
   editCommentSubmit = (values) => {
-    this.props.dispatch(editComment(this.props.match.params.id, values))
+    this.props.dispatch(editComment(this.props.match.params.id, values.body))
     console.log(values)
-    window.history.back()
+    this.props.history.goBack()
   }
 
   render() {
     const { handleSubmit } = this.props
     const { loading } = this.state
 
-    if (loading && this.props.comment) {
+    if (loading) {
       return (
         <div>
           <Dimmer active>
@@ -59,16 +56,7 @@ class EditComment extends Component {
 
         <form onSubmit={handleSubmit(this.editCommentSubmit)}>
           <div>
-            <label>Author</label>
-            <div>
-              <Field
-                name='author'
-                component='input'
-                type='text'
-                placeholder='Comment Author'
-                disabled
-              />
-            </div>
+
           </div>
           <div>
             <label>Body</label>
