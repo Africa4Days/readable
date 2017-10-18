@@ -6,6 +6,7 @@ import HomePage from './components/HomePage'
 import PostDetail from './components/PostDetail'
 import CreatePost from './components/CreatePost'
 import EditPost from './components/EditPost'
+import EditComment from './components/EditComment'
 import './App.css';
 import '../node_modules/semantic-ui-css/semantic.min.css';
 
@@ -35,7 +36,13 @@ class App extends Component {
         />
         <Route
           path='/edit/:id'
+          exact
           component={EditPost}
+        />
+        <Route
+          path='/edit/comments/:id'
+          exact
+          component={EditComment}
         />
       </Switch>
     </div>

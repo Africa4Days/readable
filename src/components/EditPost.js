@@ -21,7 +21,7 @@ class EditPost extends Component {
   }
 
   mySubmit = (values) => {
-    this.props.dispatch(editPost(this.props.match.params.id, values))
+    this.props.dispatch(editPost(values.id, values))
     console.log(values)
     this.props.history.push('/')
   }

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Dimmer, Loader, Header, Divider, Container, Menu, Icon, Segment, Comment as CommentFeed, Dropdown, Modal } from 'semantic-ui-react';
+import { Dimmer, Loader, Header, Divider, Container, Menu, Icon, Segment, Comment as CommentFeed, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchComments, voteComment, createComment, deleteComment, deletePost, fetchPost } from '../actions';
 import { Field, reduxForm, initialize } from 'redux-form';
-import EditComment from './EditComment';
 
 class PostDetail extends Component {
   componentDidMount() {
@@ -29,20 +28,13 @@ class PostDetail extends Component {
     this.props.history.push('/');
   }
 
-  show = () => {
-    this.setState({ open: true })
-  }
-
-  close = () => this.setState({ open: false })
-
   state = {
     loading: true,
     sort: 'most-liked',
-    open: false
   }
 
   render() {
-    const { loading, sort, open } = this.state
+    const { loading, sort } = this.state
     const { comments, handleSubmit, post } = this.props
     console.log(post, comments)
 
@@ -147,20 +139,13 @@ class PostDetail extends Component {
                       <Icon size='large' id='trash' name='trash outline' onClick={() => this.props.dispatch(deleteComment(item.id))} />
                     </CommentFeed.Action>
 
-                    <CommentFeed.Action onClick={this.show}>
+                    <CommentFeed.Action onClick={this.show} as={Link} to={'/edit/comments/' + item.id}>
                       <Icon size='large' id='edit' name='edit' />
                     </CommentFeed.Action>
                   </div>
                 </CommentFeed.Actions>
 
               </CommentFeed.Content>
-
-              <Modal size='mini' open={open} onClose={this.close}>
-                <Modal.Header>Edit comment</Modal.Header>
-                <Modal.Content>
-                  <EditComment commentID={item.id} />
-                </Modal.Content>
-              </Modal>
 
               </CommentFeed>
             ))}

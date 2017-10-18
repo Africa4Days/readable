@@ -9,7 +9,11 @@ export const DELETE_POST = 'DELETE_POST'
 export const DELETE_COMMENT = 'DELETE_COMMENT'
 export const EDIT_POST = 'EDIT_POST'
 export const FETCH_POST = 'FETCH_POST'
+export const EDIT_COMMENT = 'EDIT_COMMENT'
 export const FETCH_COMMENT = 'FETCH_COMMENT'
+
+const apiUrl = 'http://localhost:3001/'
+
 
 export const fetchPosts = () => {
   return (dispatch) => {
@@ -167,6 +171,22 @@ export const fetchPost = (postID) => {
   }
 }
 
+export const editComment = (commentID, body) => {
+
+  return (dispatch) => {
+    fetch(`http://localhost:3001/comments/${commentID}`, {
+      method: 'PUT',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type' : 'application/json',
+        'Authorization' : 'asdf'
+      }
+    })
+    .then(res => res.json())
+    .then(body => dispatch(editCommentAction(body)))
+  }
+}
+
 export const fetchComment = (commentID) => {
 
   return (dispatch) => {
@@ -175,6 +195,13 @@ export const fetchComment = (commentID) => {
     })
     .then(res => res.json())
     .then(comment => dispatch(fetchCommentAction(comment)))
+  }
+}
+
+export const editCommentAction = (comment) => {
+  return {
+    type: EDIT_COMMENT,
+    comment
   }
 }
 

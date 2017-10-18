@@ -10,7 +10,8 @@ import {
   DELETE_COMMENT,
   EDIT_POST,
   FETCH_POST,
-  FETCH_COMMENT
+  FETCH_COMMENT,
+  EDIT_COMMENT
 } from '../actions'
 
 const initialState = {
@@ -76,6 +77,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         comments: [...state.comments.filter(comment => comment.id !== action.comment.id)]
+      }
+    case EDIT_COMMENT :
+      return {
+        ...state,
+        comments: [...state.comments.filter(comment => comment.id !== action.comment.id), action.comment]
       }
     case FETCH_COMMENT :
       return {
