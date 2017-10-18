@@ -16,9 +16,14 @@ class EditComment extends Component {
     this.props.dispatch(reset('EditComment'))
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.props.dispatch(initialize('EditComment', nextProps.comment, true))
+  }
+
   editCommentSubmit = (values) => {
     this.props.dispatch(editComment(this.props.match.params.id, values))
     console.log(values)
+    window.history.back()
   }
 
   render() {
@@ -51,7 +56,13 @@ class EditComment extends Component {
           <div>
             <label>Author</label>
             <div>
-              {this.props.comment.author}
+              <Field
+                name='author'
+                component='input'
+                type='text'
+                placeholder='Comment Author'
+                disabled
+              />
             </div>
           </div>
           <div>
