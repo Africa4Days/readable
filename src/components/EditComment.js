@@ -45,7 +45,7 @@ class EditComment extends Component {
     return (
       <div>
       <Menu secondary size='large'>
-        <Menu.Item name='back' onClick={() => window.history.back()}>
+        <Menu.Item name='back' onClick={() => this.props.history.goBack()}>
           <Icon size='large' name='chevron left' />
         </Menu.Item>
       </Menu>

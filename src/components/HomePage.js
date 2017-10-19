@@ -150,6 +150,10 @@ class HomePage extends Component {
             </Feed.Summary>
             </Link>
 
+            <Feed.Extra text>
+              {post.commentCount} comment(s)
+            </Feed.Extra>
+
             <Feed.Meta>
               <Feed.Like>
                 <Icon id='thumb-up' size='large' name='thumbs up' onClick={() => this.props.dispatch(votePost(post.id, 'upVote'))} />

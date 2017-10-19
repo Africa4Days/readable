@@ -93,7 +93,7 @@ class PostDetail extends Component {
 
 
           <CommentFeed.Group>
-            <Header as='h3' dividing>Comments</Header>
+            <Header as='h3' dividing>Comments ({post.commentCount})</Header>
 
             <Dropdown item text='Sort by'>
               <Dropdown.Menu>
