@@ -48,6 +48,7 @@ export const fetchComments = (postID) => {
 }
 
 export const votePost = (postID, option) => {
+
   return (dispatch) => {
     fetch(`http://localhost:3001/posts/${postID}`, {
       method: 'POST',

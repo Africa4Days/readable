@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Menu, Button, Feed, Container, Dropdown, Icon, Divider, Dimmer, Loader, Header } from 'semantic-ui-react';
+import { Menu, Button, Card, Container, Dropdown, Icon, Divider, Dimmer, Loader, Header } from 'semantic-ui-react';
 import { fetchPosts, fetchCategories, votePost, deletePost } from '../actions'
 import { Link } from 'react-router-dom'
 
@@ -15,6 +15,11 @@ class HomePage extends Component {
     this.props.dispatch(fetchPosts())
     this.props.dispatch(fetchCategories())
     setTimeout(() => this.setState({ loading: false }), 1000)
+  }
+
+  postVoting = (event, postId, option) => {
+    event.stopPropagation()
+    this.props.dispatch(votePost(postId, option))
   }
 
   handleItemClick = (event, { name }) => {
@@ -129,61 +134,28 @@ class HomePage extends Component {
       <Divider />
 
       {content.map((post) => (
-      <Feed key={post.id} size='large'>
-        <Feed.Event>
+      <Card.Group key={post.id}>
+        <Card fluid id='Cards'>
+        <Card.Content as={Link} to={'/posts/' + post.id}>
+          <Card.Header>{post.title}</Card.Header>
+          <Card.Meta>posted by {post.author} at {post.timestamp}</Card.Meta>
+          <Card.Description>{post.body}</Card.Description>
+        </Card.Content>
 
-          <Feed.Label>
-            <Icon size='large' inverted color='blue' name='user circle' />
-          </Feed.Label>
+          <Card.Content extra>
+            <Icon id='thumb-up' size='large' name='thumbs outline up' onClick={(event) => this.postVoting(event, post.id, 'upVote')}/>
+            {post.voteScore}
+            <Icon id='thumb-down' size='large' name='thumbs outline down' onClick={(event) => this.postVoting(event, post.id, 'downVote')}/>
 
-          <Feed.Content>
-
-            <Feed.Date>
-              Posted Today by {post.author}
-            </Feed.Date>
-
-            <Link
-              to={'/posts/' + post.id}
-            >
-            <Feed.Summary onClick={() => this.thisClick(post)}>
-              {post.title}
-            </Feed.Summary>
+            <Link to={'/posts/' + post.id}>
+            <div id='commentsCount'>
+              {post.commentCount} comment(s)
+            </div>
             </Link>
 
-            <Feed.Extra text>
-              {post.commentCount} comment(s)
-            </Feed.Extra>
-
-            <Feed.Meta>
-              <Feed.Like>
-                <Icon id='thumb-up' size='large' name='thumbs up' onClick={() => this.props.dispatch(votePost(post.id, 'upVote'))} />
-              </Feed.Like>
-
-                <span id='postScore'>{post.voteScore}</span>
-
-              <Feed.Like>
-                <Icon id='thumb-down' size='large' name='thumbs down' onClick={() => this.props.dispatch(votePost(post.id, 'downVote'))} />
-              </Feed.Like>
-
-              <div id='edit-buttons'>
-              <Feed.Like>
-                <Icon id='trash' size='large' name='trash outline' onClick={() => this.props.dispatch(deletePost(post.id))} />
-              </Feed.Like>
-
-              <Link
-                to={'/edit/' + post.id}
-              >
-              <Feed.Like>
-                <Icon id='edit' size='large' name='edit' />
-              </Feed.Like>
-              </Link>
-              </div>
-
-            </Feed.Meta>
-
-          </Feed.Content>
-        </Feed.Event>
-      </Feed>
+          </Card.Content>
+        </Card>
+      </Card.Group>
       ))}
 
       </Container>

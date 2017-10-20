@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Dimmer, Loader, Header, Divider, Container, Menu, Icon, Segment, Comment as CommentFeed, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchComments, voteComment, createComment, deleteComment, deletePost, fetchPost } from '../actions';
+import { fetchComments, voteComment, createComment, deleteComment, deletePost, fetchPost, votePost } from '../actions';
 import { Field, reduxForm, initialize } from 'redux-form';
 
 class PostDetail extends Component {
@@ -77,6 +77,19 @@ class PostDetail extends Component {
           </Header.Subheader>
           </Header>
 
+          <div>
+          <Icon id='thumb-up' name='thumbs outline up' size='large' onClick={(event) => this.props.dispatch(votePost(post.id, 'upVote'))} />
+          {post.voteScore}
+          <Icon id='thumb-down' name='thumbs outline down' size='large' onClick={(event) => this.props.dispatch(votePost(post.id, 'downVote'))} />
+          </div>
+
+
+
+          <Divider />
+          <Segment basic padded='very' textAlign='left' size='massive'>
+            {post.body}
+          </Segment>
+
           <div id='details-buttons'>
             <Icon id='trash' size='large' name='trash outline' onClick={() => this.onPostDelete(post.id)}/>
             <Link
@@ -85,11 +98,6 @@ class PostDetail extends Component {
             <Icon id='edit-detail' size='large' name='edit' />
             </Link>
           </div>
-
-          <Divider />
-          <Segment basic padded='very' textAlign='left' size='massive'>
-            {post.body}
-          </Segment>
 
 
           <CommentFeed.Group>

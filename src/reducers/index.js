@@ -36,7 +36,8 @@ const reducer = (state = initialState, action) => {
     case VOTE_POST :
       return {
         ...state,
-        posts: [...state.posts.filter(post => post.id !== action.post.id), action.post]
+        posts: [...state.posts.filter(post => post.id !== action.post.id), action.post],
+        post: action.post
       }
     case CREATE_POST :
       return {

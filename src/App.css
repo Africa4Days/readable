@@ -22,12 +22,35 @@
   font-size: large;
 }
 
+#Cards {
+  -webkit-transition: all 0.3s ease-in-out;
+}
+
+#Cards:hover {
+  margin-left: 30px;
+  -webkit-transition: all 0.3s ease-in-out;
+}
+
+#commentsCount {
+  margin-top: 10px;
+}
+
+#thumb-up {
+  margin-right: 8px;
+}
+
+#thumb-down {
+  margin-left: 10px;
+}
+
 #thumb-up:hover {
   color: #00E676;
+  cursor: pointer;
 }
 
 #thumb-down:hover {
   color: #F44336;
+  cursor: pointer;
 }
 
 #commentScore {
