@@ -82,7 +82,7 @@ class HomePage extends Component {
 
     return (
       <div>
-      <Menu pointing secondary size='large'>
+      <Menu id='menu' pointing secondary size='large'>
       <Menu.Item header>READABLE</Menu.Item>
       <Menu.Item
         name='home'

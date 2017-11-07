@@ -22,6 +22,25 @@
   font-size: large;
 }
 
+#menu {
+  background: white;
+}
+
+#submitButton {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#error {
+  color: #F44336;
+  font-size: 12px;
+  padding-left: 10px;
+}
+
+#author {
+  padding-bottom: 15px;
+}
+
 #Cards {
   -webkit-transition: all 0.3s ease-in-out;
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu, Icon, Container, Header, Divider } from 'semantic-ui-react';
+import { Menu, Icon, Container, Header, Divider, Form, Button } from 'semantic-ui-react';
 import { Field, reduxForm, initialize, reset } from 'redux-form'
 import { connect } from 'react-redux';
 import { Dimmer, Loader } from 'semantic-ui-react';
@@ -28,6 +28,8 @@ class EditComment extends Component {
     this.props.history.goBack()
   }
 
+  required = (value) => value ? undefined : 'Required'
+
   render() {
     const { handleSubmit } = this.props
     const { loading } = this.state
@@ -44,32 +46,33 @@ class EditComment extends Component {
 
     return (
       <div>
-      <Menu secondary size='large'>
+      <Menu id='menu' pointing secondary size='large'>
         <Menu.Item name='back' onClick={() => this.props.history.goBack()}>
           <Icon size='large' name='chevron left' />
         </Menu.Item>
       </Menu>
-      <Container>
+      <Container textAlign='left'>
         <Header as='h2' textAlign='left'>Edit Comment</Header>
         <Divider />
 
 
-        <form onSubmit={handleSubmit(this.editCommentSubmit)}>
+        <Form onSubmit={handleSubmit(this.editCommentSubmit)}>
           <div>
 
           </div>
           <div>
             <label>Body</label>
-            <div>
+            <div id='author'>
               <Field
                 name='body'
                 component='textarea'
                 placeholder='Comment Body'
+                validate={this.required}
               />
             </div>
           </div>
-          <button type='submit'>Update Comment</button>
-        </form>
+          <Button type='submit'>Update Comment</Button>
+        </Form>
 
 
       </Container>

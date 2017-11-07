@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu, Icon, Container, Header, Divider } from 'semantic-ui-react';
+import { Menu, Icon, Container, Header, Divider, Form, Button } from 'semantic-ui-react';
 import { Field, reduxForm, initialize, reset } from 'redux-form'
 import { connect } from 'react-redux';
 import { Dimmer, Loader } from 'semantic-ui-react';
@@ -18,6 +18,9 @@ class EditPost extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.props.dispatch(initialize('editForm', nextProps.post, true))
+    if (this.state.loading && this.props.post && this.props.categories) {
+      this.setState({ loading: false })
+    }
   }
 
   mySubmit = (values) => {
@@ -25,6 +28,8 @@ class EditPost extends Component {
     console.log(values)
     this.props.history.push('/')
   }
+
+  required = (value) => value ? undefined : 'Required'
 
   render() {
     const { handleSubmit, categories } = this.props
@@ -42,54 +47,58 @@ class EditPost extends Component {
 
     return (
       <div>
-      <Menu secondary size='large'>
+      <Menu id='menu' pointing secondary size='large'>
         <Menu.Item name='back' onClick={() => this.props.history.goBack()}>
           <Icon size='large' name='chevron left' />
         </Menu.Item>
       </Menu>
-      <Container>
+      <Container textAlign='left'>
         <Header as='h2' textAlign='left'>Edit Post</Header>
         <Divider />
 
 
-        <form onSubmit={handleSubmit(this.mySubmit)}>
+        <Form onSubmit={handleSubmit(this.mySubmit)}>
           <div>
             <label>Title</label>
-            <div>
+            <div id='author'>
               <Field
                 name='title'
                 component='input'
                 type='text'
                 placeholder='Post title'
+                validate={this.required}
               />
           </div>
           </div>
           <div>
             <label>Author</label>
-            <div>
+            <div id='author'>
               <Field
                 name='author'
                 component='input'
                 type='text'
                 placeholder='Post author'
+                validate={this.required}
               />
             </div>
           </div>
           <div>
             <label>Body</label>
-            <div>
+            <div id='author'>
               <Field
                 name='body'
                 component='textarea'
+                validate={this.required}
               />
             </div>
           </div>
           <div>
             <label>Category</label>
-            <div>
+            <div id='author'>
               <Field
                 name='category'
                 component='select'
+                validate={this.required}
               >
                 <option />
                 <option value={categories[0].name}>{categories[0].name}</option>
@@ -98,8 +107,8 @@ class EditPost extends Component {
               </Field>
             </div>
           </div>
-          <button type='submit'>Add Changes</button>
-          </form>
+          <Button type='submit'>Add Changes</Button>
+          </Form>
 
 
       </Container>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dimmer, Loader, Header, Divider, Container, Menu, Icon, Segment, Comment as CommentFeed, Dropdown } from 'semantic-ui-react';
+import { Dimmer, Loader, Header, Divider, Container, Menu, Icon, Segment, Comment as CommentFeed, Dropdown, Form, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchComments, voteComment, createComment, deleteComment, deletePost, fetchPost, votePost } from '../actions';
@@ -23,6 +23,28 @@ class PostDetail extends Component {
     this.props.dispatch(initialize('CreateComment', {}))
   }
 
+  required = (value) => value ? undefined : 'Required'
+
+  renderField = ({ input, label, type, meta: { touched, error } }) => (
+    <div>
+      <label>{label}</label>
+      <div>
+        <input {...input} placeholder={label} type={type} />
+        {touched && ((error && <span id='error'><Icon name='warning circle' size='large' />{error}</span>))}
+      </div>
+    </div>
+  )
+
+  renderBody = ({ textarea, label, type, meta: { touched, error } }) => (
+    <div>
+      <label>{label}</label>
+      <div>
+        <textarea {...textarea} placeholder={label} type={type} />
+        {touched && ((error && <span id='error'><Icon name='warning circle' size='large' />{error}</span>))}
+      </div>
+    </div>
+  )
+
   onPostDelete = (postID) => {
     this.props.dispatch(deletePost(postID))
     this.props.history.push('/');
@@ -36,6 +58,7 @@ class PostDetail extends Component {
   render() {
     const { loading, sort } = this.state
     const { comments, handleSubmit, post } = this.props
+
     console.log(post, comments)
 
     if (loading) {
@@ -65,7 +88,7 @@ class PostDetail extends Component {
 
     return (
       <div>
-      <Menu secondary size='large'>
+      <Menu id='menu' pointing secondary size='large'>
         <Menu.Item name='back' as={Link} to='/'>
           <Icon size='large' name='chevron left' />
         </Menu.Item>
@@ -160,30 +183,31 @@ class PostDetail extends Component {
             <Header as='h3'>Add a comment</Header>
           </CommentFeed.Group>
 
-          <form form='CreateComment' onSubmit={handleSubmit(this.mySubmit)}>
+          <Form form='CreateComment' onSubmit={handleSubmit(this.mySubmit)}>
             <div>
-              <label>Author</label>
-              <div>
+              <div id='author'>
                 <Field
                   name='author'
-                  component='input'
+                  label='Author'
+                  component={this.renderField}
                   type='text'
-                  placeholder='Comment author'
+                  validate={this.required}
                 />
               </div>
             </div>
             <div>
-              <label>Body</label>
               <div>
                 <Field
                   name='body'
-                  component='textarea'
-                  placeholder='Comment body'
+                  label='Comment'
+                  component={this.renderField}
+                  type='text'
+                  validate={this.required}
                 />
               </div>
             </div>
-            <button type='submit'>Add comment</button>
-          </form>
+            <Button id='submitButton' type='submit'>Add comment</Button>
+          </Form>
 
         </Container>
 

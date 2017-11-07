@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu, Icon, Container, Header, Divider } from 'semantic-ui-react';
+import { Menu, Icon, Container, Header, Divider, Form, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux';
@@ -21,6 +21,8 @@ class CreatePost extends Component {
     this.props.history.push('/')
   }
 
+  required = (value) => value ? undefined : 'Required'
+
   render() {
     const { handleSubmit, categories } = this.props
     const { loading } = this.state
@@ -37,54 +39,59 @@ class CreatePost extends Component {
 
     return (
       <div>
-      <Menu secondary size='large'>
+      <Menu id='menu' pointing secondary size='large'>
         <Menu.Item name='back' as={Link} to='/'>
           <Icon size='large' name='chevron left' />
         </Menu.Item>
       </Menu>
-      <Container>
+      <Container textAlign='left'>
         <Header as='h2' textAlign='left'>New Post</Header>
         <Divider />
 
 
-        <form onSubmit={handleSubmit(this.mySubmit)}>
+        <Form onSubmit={handleSubmit(this.mySubmit)}>
           <div>
             <label>Title</label>
-            <div>
+            <div id='author'>
               <Field
                 name='title'
                 component='input'
                 type='text'
                 placeholder='Post title'
+                validate={this.required}
               />
           </div>
           </div>
           <div>
             <label>Author</label>
-            <div>
+            <div id='author'>
               <Field
                 name='author'
                 component='input'
                 type='text'
                 placeholder='Post author'
+                validate={this.required}
               />
             </div>
           </div>
           <div>
             <label>Body</label>
-            <div>
+            <div id='author'>
               <Field
                 name='body'
                 component='textarea'
+                placeholder='Post body'
+                validate={this.required}
               />
             </div>
           </div>
           <div>
             <label>Category</label>
-            <div>
+            <div id='author'>
               <Field
                 name='category'
                 component='select'
+                validate={this.required}
               >
                 <option />
                 <option value={categories[0].name}>{categories[0].name}</option>
@@ -93,8 +100,8 @@ class CreatePost extends Component {
               </Field>
             </div>
           </div>
-          <button type='submit'>Create post</button>
-          </form>
+          <Button type='submit'>Create post</Button>
+          </Form>
 
       </Container>
       </div>
