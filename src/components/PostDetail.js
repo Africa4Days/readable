@@ -23,6 +23,11 @@ class PostDetail extends Component {
     this.props.dispatch(initialize('CreateComment', {}))
   }
 
+  readableTime = (timestamp) => {
+    let date = new Date(timestamp)
+    return date.toDateString()
+  }
+
   required = (value) => value ? undefined : 'Required'
 
   renderField = ({ input, label, type, meta: { touched, error } }) => (
@@ -96,7 +101,7 @@ class PostDetail extends Component {
         <Container textAlign='left'>
           <Header as='h1' textAlign='left'>{post.title}
           <Header.Subheader>
-            posted {post.timestamp} by {post.author}
+            posted on {this.readableTime(post.timestamp)} by {post.author}
           </Header.Subheader>
           </Header>
 
@@ -147,7 +152,7 @@ class PostDetail extends Component {
                 </CommentFeed.Author>
 
                 <CommentFeed.Metadata>
-                  <span>{item.timestamp}</span>
+                  <span>{this.readableTime(item.timestamp)}</span>
                 </CommentFeed.Metadata>
 
                 <CommentFeed.Text>

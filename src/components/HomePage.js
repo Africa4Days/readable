@@ -34,6 +34,11 @@ class HomePage extends Component {
     console.log(post.id)
   }
 
+  readableTime = (timestamp) => {
+    let date = new Date(timestamp)
+    return date.toDateString()
+  }
+
   render() {
     const { loading, activeItem, sort } = this.state;
     const { categories, posts } = this.props;
@@ -138,7 +143,7 @@ class HomePage extends Component {
         <Card fluid id='Cards'>
         <Card.Content as={Link} to={'/posts/' + post.id}>
           <Card.Header>{post.title}</Card.Header>
-          <Card.Meta>posted by {post.author} at {post.timestamp}</Card.Meta>
+          <Card.Meta>posted by {post.author} on {this.readableTime(post.timestamp)}</Card.Meta>
           <Card.Description>{post.body}</Card.Description>
         </Card.Content>
 
