@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Menu, Button, Card, Container, Dropdown, Icon, Divider, Dimmer, Loader, Header } from 'semantic-ui-react';
 import { fetchPosts, fetchCategories, votePost, deletePost } from '../actions'
 import { Link } from 'react-router-dom'
+import CategoryView from './CategoryView'
 
 class HomePage extends Component {
   state = {
@@ -20,6 +21,11 @@ class HomePage extends Component {
   postVoting = (event, postId, option) => {
     event.stopPropagation()
     this.props.dispatch(votePost(postId, option))
+  }
+
+  onPostDelete = (postID) => {
+    this.props.dispatch(deletePost(postID))
+    this.props.history.push('/');
   }
 
   handleItemClick = (event, { name }) => {
@@ -96,6 +102,9 @@ class HomePage extends Component {
       />
       <Menu.Menu position='right'>
       <Menu.Item header>CATEGORIES</Menu.Item>
+      <Link
+        to={categories[0].name + '/posts'}
+      >
         <Menu.Item
           name={categories[0].name}
           active={activeItem === categories[0].name}
@@ -103,6 +112,11 @@ class HomePage extends Component {
         >
 
         </Menu.Item>
+        </Link>
+
+        <Link
+          to={categories[1].name + '/posts'}
+        >
         <Menu.Item
           name={categories[1].name}
           active={activeItem === categories[1].name}
@@ -110,6 +124,11 @@ class HomePage extends Component {
         >
 
         </Menu.Item>
+        </Link>
+
+        <Link
+          to={categories[2].name + '/posts'}
+        >
         <Menu.Item
           name={categories[2].name}
           active={activeItem === categories[2].name}
@@ -117,6 +136,8 @@ class HomePage extends Component {
         >
 
         </Menu.Item>
+        </Link>
+
         <Menu.Item>
         <Button circular inverted color='blue' content='New Post' as={Link} to='/posts'/>
         </Menu.Item>
@@ -158,6 +179,16 @@ class HomePage extends Component {
             </div>
             </Link>
 
+          </Card.Content>
+
+          <Card.Content extra>
+            <Icon size='large' id='trash' name='trash outline' onClick={() => this.onPostDelete(post.id)}/>
+
+            <Link
+              to={'/edit/' + post.id}
+            >
+            <Icon id='edit-detail' size='large' name='edit' />
+            </Link>
           </Card.Content>
         </Card>
       </Card.Group>

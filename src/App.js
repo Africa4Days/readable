@@ -7,6 +7,7 @@ import PostDetail from './components/PostDetail'
 import CreatePost from './components/CreatePost'
 import EditPost from './components/EditPost'
 import EditComment from './components/EditComment'
+import CategoryView from './components/CategoryView'
 import './App.css';
 import '../node_modules/semantic-ui-css/semantic.min.css';
 
@@ -43,6 +44,11 @@ class App extends Component {
           path='/edit/comments/:id'
           exact
           component={EditComment}
+        />
+        <Route
+          path='/:categories/posts'
+          exact
+          component={CategoryView}
         />
       </Switch>
     </div>
