@@ -146,7 +146,7 @@ class CategoryView extends Component {
         {content.map((post) => (
         <Card.Group key={post.id}>
           <Card fluid id='Cards'>
-          <Card.Content as={Link} to={'/posts/' + post.id}>
+          <Card.Content as={Link} to={'/' + post.category + '/posts/' + post.id}>
             <Card.Header>{post.title}</Card.Header>
             <Card.Meta>posted by {post.author} on {this.readableTime(post.timestamp)}</Card.Meta>
             <Card.Description>{post.body}</Card.Description>
