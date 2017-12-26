@@ -95,11 +95,15 @@ class HomePage extends Component {
       <div>
       <Menu id='menu' pointing secondary size='large'>
       <Menu.Item header>READABLE</Menu.Item>
+      <Link
+        to={'/'}
+      >
       <Menu.Item
         name='home'
         active={activeItem === 'home'}
         onClick={this.handleItemClick}
       />
+      </Link>
       <Menu.Menu position='right'>
       <Menu.Item header>CATEGORIES</Menu.Item>
       <Link
