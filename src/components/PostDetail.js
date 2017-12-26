@@ -64,8 +64,6 @@ class PostDetail extends Component {
     const { loading, sort } = this.state
     const { comments, handleSubmit, post } = this.props
 
-    console.log(post, comments)
-
     if (loading) {
       return (
         <div>
@@ -75,6 +73,21 @@ class PostDetail extends Component {
         </div>
       )
     }
+
+    if (post.timestamp === undefined) {
+      return (
+        <div>
+        <Menu id='menu' pointing secondary size='large'>
+          <Menu.Item name='back' as={Link} to='/'>
+            <Icon size='large' name='chevron left' />
+          </Menu.Item>
+        </Menu>
+        <div id='postDeleted'>
+         Sorry, this post has been deleted.
+        </div>
+        </div>
+      )
+    } else {
 
     let allComments
       if (sort === 'most-liked') {
@@ -219,6 +232,7 @@ class PostDetail extends Component {
       </div>
     )
   }
+}
 }
 
 const mapStateToProps = (state) => {
