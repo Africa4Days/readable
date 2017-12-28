@@ -107,7 +107,7 @@ class HomePage extends Component {
       <Menu.Menu position='right'>
       <Menu.Item header>CATEGORIES</Menu.Item>
       <Link
-        to={categories[0].name + '/posts'}
+        to={'/' + categories[0].name}
       >
         <Menu.Item
           name={categories[0].name}
@@ -119,7 +119,7 @@ class HomePage extends Component {
         </Link>
 
         <Link
-          to={categories[1].name + '/posts'}
+          to={'/' + categories[1].name}
         >
         <Menu.Item
           name={categories[1].name}
@@ -131,7 +131,7 @@ class HomePage extends Component {
         </Link>
 
         <Link
-          to={categories[2].name + '/posts'}
+          to={'/' + categories[2].name}
         >
         <Menu.Item
           name={categories[2].name}

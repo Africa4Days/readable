@@ -47,7 +47,7 @@ class App extends Component {
           component={EditComment}
         />
         <Route
-          path='/:categories/posts'
+          path='/:categories'
           exact
           component={CategoryView}
         />

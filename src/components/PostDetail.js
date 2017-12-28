@@ -28,6 +28,10 @@ class PostDetail extends Component {
     return date.toDateString()
   }
 
+  deleteComment = (item) => {
+    this.props.dispatch(deleteComment(item))
+  }
+
   required = (value) => value ? undefined : 'Required'
 
   renderField = ({ input, label, type, meta: { touched, error } }) => (
@@ -142,7 +146,7 @@ class PostDetail extends Component {
 
 
           <CommentFeed.Group>
-            <Header as='h3' dividing>Comments ({post.commentCount})</Header>
+            <Header as='h3' dividing>Comments ({comments.length})</Header>
 
             <Dropdown item text='Sort by'>
               <Dropdown.Menu>
