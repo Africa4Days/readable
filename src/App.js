@@ -27,7 +27,7 @@ class App extends Component {
           component={HomePage}
         />
         <Route
-          path='/:categories/posts/:id'
+          path='/:categories/:id'
           exact
           component={PostDetail}
         />
