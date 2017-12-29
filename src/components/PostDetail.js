@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dimmer, Loader, Header, Divider, Container, Menu, Icon, Segment, Comment as CommentFeed, Dropdown, Form, Button } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchComments, voteComment, createComment, deleteComment, deletePost, fetchPost, votePost } from '../actions';
 import { Field, reduxForm, initialize } from 'redux-form';
@@ -137,11 +137,11 @@ class PostDetail extends Component {
 
           <div id='details-buttons'>
             <Icon id='trash' size='large' name='trash outline' onClick={() => this.onPostDelete(post.id)}/>
-            <Link
-              to={'/edit/' + post.id}
-            >
-            <Icon id='edit-detail' size='large' name='edit' />
+
+            <Link to={'/edit/' + post.id}>
+              <Icon id='edit-detail' size='large' name='edit' />
             </Link>
+
           </div>
 
 
@@ -246,4 +246,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default reduxForm({ form: 'CreateComment' })(connect(mapStateToProps)(PostDetail))
+export default withRouter(reduxForm({ form: 'CreateComment' })(connect(mapStateToProps)(PostDetail)))

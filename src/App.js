@@ -27,6 +27,11 @@ class App extends Component {
           component={HomePage}
         />
         <Route
+          path='/edit/:id'
+          exact
+          component={EditPost}
+        />
+        <Route
           path='/:categories/:id'
           exact
           component={PostDetail}
@@ -35,11 +40,6 @@ class App extends Component {
           path='/posts'
           exact
           component={CreatePost}
-        />
-        <Route
-          path='/edit/:id'
-          exact
-          component={EditPost}
         />
         <Route
           path='/edit/comments/:id'

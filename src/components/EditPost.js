@@ -4,6 +4,7 @@ import { Field, reduxForm, initialize, reset } from 'redux-form'
 import { connect } from 'react-redux';
 import { Dimmer, Loader } from 'semantic-ui-react';
 import { editPost, fetchPost } from '../actions'
+import { withRouter } from 'react-router'
 
 class EditPost extends Component {
   state = {
@@ -131,4 +132,4 @@ const newForm = reduxForm({
 
 EditPost = connect(mapStateToProps)(newForm(EditPost))
 
-export default EditPost
+export default withRouter(EditPost)
